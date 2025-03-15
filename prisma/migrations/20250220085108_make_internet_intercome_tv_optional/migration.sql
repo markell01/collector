@@ -1,0 +1,4 @@
+-- AlterTable
+ALTER TABLE "House" ALTER COLUMN "internet_id" DROP NOT NULL,
+ALTER COLUMN "intercom_id" DROP NOT NULL,
+ALTER COLUMN "tv_id" DROP NOT NULL;

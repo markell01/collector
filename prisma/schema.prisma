@@ -1,0 +1,67 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model users {
+  id       String  @id @default(uuid())
+  login    String  @unique
+  password String
+
+  session  session[]
+}
+
+model session {
+  user_id    String  
+  session_id String  @id  
+
+  User users @relation(fields: [user_id], references: [id])
+}
+
+model clasters {
+  id         String @id @default(uuid())
+  name       String
+  col_houses Int
+
+  House houses[]
+}
+
+model houses {
+  id          String @id @default(uuid())
+  short_name  String
+  internet_id Int?
+  intercom_id Int?
+  tv_id       Int?
+  claster_id  String
+
+  claster     clasters @relation(fields: [claster_id], references: [id])
+}
+
+model docs {
+  id          Int @id @default(autoincrement())
+  abon_id     Int
+  abon_type   String
+  file_name   String
+  claster_id  String
+  createdAt   DateTime @default(now())
+}
+
+model templates {
+  uid   String @id @default(uuid())
+  name  String
+  level Int
+
+  templatesHouse templateHouses[]
+}
+
+model templateHouses {
+  id           Int @id @default(autoincrement())
+  house_id     String
+  template_id  String
+
+  template     templates @relation(fields: [template_id], references: [uid])
+}
